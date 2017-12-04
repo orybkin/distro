@@ -70,7 +70,7 @@ class RandomUniform(random: Random) extends VectorLabelInitializer {
   def makeRandomUniformVector(size: Int): Vector = {
     val v = new DenseVector(size)
     for (i <- 0 until size optimized) {
-      v(i) = random.nextDouble()
+      v(i) =  random.nextDouble()
     }
     v
   }

@@ -8,6 +8,8 @@ scalaVersion := "2.10.3"
 // Scalaxy/Loops snapshots are published on the Sonatype repository.
 resolvers += Resolver.sonatypeRepo("snapshots")
 
+scalacOptions ++= Seq("-unchecked", "-deprecation")
+
 libraryDependencies ++= Seq(
   "net.sf.trove4j" % "trove4j" % "3.0.3",
   "com.github.scopt" %% "scopt" % "3.1.0",
@@ -16,6 +18,8 @@ libraryDependencies ++= Seq(
   "edu.stanford.nlp" % "stanford-corenlp" % "3.3.1",
   "com.nativelibs4java" %% "scalaxy-loops" % "0.3-SNAPSHOT" % "provided"
 )
+
+//libraryDependencies += "org.scala-lang.modules" %% "scala-parallel-collections" % "0.1.0"
 
 
 

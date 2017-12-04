@@ -24,10 +24,10 @@ object Main extends App {
   manager += new LiblinearLearnerExperiment
   manager += new LiblinearAnalysisExperiment
 
-  manager += new POSExperiment
-  manager += new POSAnalysis
-
-  manager += new CoNLLPOSExperiment
+//  manager += new POSExperiment
+//  manager += new POSAnalysis
+//
+//  manager += new CoNLLPOSExperiment
 
   manager.run(args)
 }

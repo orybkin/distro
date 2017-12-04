@@ -191,9 +191,9 @@ class ExperimentManager(experimentOutputDirectory: String, htmlOutputDir: String
 
       val htmlConfig =
         s"""
-        |<li><strong>Experiment</strong>: <code>${expt.name}</code></li>
-        |<li><strong>Time stamp</strong>: <code>$timeStamp</code></li>
-        |<li><strong>Experiment id</strong>: <code>$dir</code></li>
+           |<li><strong>Experiment</strong>: <code>${expt.name}</code></li>
+           |<li><strong>Time stamp</strong>: <code>$timeStamp</code></li>
+           |<li><strong>Experiment id</strong>: <code>$dir</code></li>
       """.stripMargin
 
       withHTMLOutput(writeHTML(s"<h3>Execution details</h3> <ol>$htmlConfig </ol>"))
@@ -207,7 +207,7 @@ class ExperimentManager(experimentOutputDirectory: String, htmlOutputDir: String
     val baseDir = new File(outDir)
 
     IOUtils.ensureDir(baseDir)
-    val children = baseDir.listFiles.map {
+    val children = baseDir.listFiles.filter(!_.getName.equals(".DS_Store")).map {
       _.getName.toInt
     }.sorted
 

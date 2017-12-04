@@ -3,6 +3,7 @@ package edu.stanford.nlp.vectorlabels.utilities
 import edu.stanford.nlp.vectorlabels.Main
 import edu.stanford.nlp.vectorlabels.learn._
 import edu.stanford.nlp.vectorlabels.core.Vector
+import scala.collection.parallel
 
 import Jama.Matrix
 
@@ -266,6 +267,9 @@ abstract class AbstractGenericExperiment[Part](implicit random: scala.util.Rando
               sgdParameters(options, lambda1, lambda2, options[Int](numLabelVectorIters)),
               endOfEpochEval = eval)
             new IterativeLearner(iters, weightTrainer, labelVectorTrainer)
+          case "nuclear-weights" =>
+            new SGDNuclearWeightLearner[Part](inf,
+              sgdParameters(options, lambda1, lambda2, options[Int](numWeightIters)),targetSimilarities, endOfEpochEval = eval)
           case _ =>
             throw new RuntimeException("Unknown learning algorithm " + options[String](learningAlgorithm))
         }

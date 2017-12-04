@@ -18,7 +18,7 @@ trait MinibatchUpdater[Part] extends HasLogging {
   def minibatchInference(examples: Seq[(Instance[Part], Structure[Part])], model: Model): GenSeq[UpdateRecord[Part]] = {
     val miniBatchExamples =
       if (params.miniBatchesInParallel)
-        examples.par
+        examples//.par
       else
         examples
 
