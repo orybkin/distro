@@ -2,6 +2,10 @@ name := "vectorlabels"
 
 version := "1.0"
 
+javacOptions ++= Seq("-source", "1.8")
+
+//scalacOptions += "-target:jvm-1.7"
+
 // Only works with 2.10.0+
 scalaVersion := "2.10.3"
 

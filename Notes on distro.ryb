@@ -1,6 +1,8 @@
 
 export SBT_OPTS="-Xmx15G -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled -XX:MaxPermSize=15G -Xss2M  -Duser.timezone=GMT"
 
+export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_151.jdk/Contents/Home
+
 // Baseline
 run linear -n 21 -w --train-iters 25 -t data/20news/features.extracted/20news-bydate-train-stanford-classifier.txt.feats -e data/20news/features.extracted/20news-bydate-test-stanford-classifier.txt.feats -v --cv-iters 5
 
