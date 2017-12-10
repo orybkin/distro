@@ -12,12 +12,12 @@ import edu.stanford.nlp.vectorlabels.core
   *
   * @author svivek
   */
-class SGDNuclearWeightLearner[Part](val inference: Inference[Part],
-                          val params: SGDParameters,
-                          val targetSimilarities: List[List[Double]],
-                          val endOfEpochEval: (Int, Model) => Unit = (t, m) => (),
-                          val labelLoss: Symbol = 'Nuclear)
-                         (implicit val random: scala.util.Random)
+class SGDFactorizationWeightLearner[Part](val inference: Inference[Part],
+                                          val params: SGDParameters,
+                                          val targetSimilarities: List[List[Double]],
+                                          val endOfEpochEval: (Int, Model) => Unit = (t, m) => (),
+                                          val labelLoss: Symbol = 'Nuclear)
+                                         (implicit val random: scala.util.Random)
   extends WeightLearner[Part] with SGDLearner[Part] with MinibatchUpdater[Part] with NuclearWeightVectorUpdater[Part] {
 
   def learnWeights(problem: Problem[Part], init: Model): Vector = {
@@ -34,7 +34,6 @@ class SGDNuclearWeightLearner[Part](val inference: Inference[Part],
 
     weightStep(updateInfo, w, A, rate)
   }
-
 
   def objective(w: Vector, A: List[Vector], problem: Problem[Part],
                 inference: Inference[Part],

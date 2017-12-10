@@ -268,8 +268,11 @@ abstract class AbstractGenericExperiment[Part](implicit random: scala.util.Rando
               endOfEpochEval = eval)
             new IterativeLearner(iters, weightTrainer, labelVectorTrainer)
           case "nuclear-weights" =>
-            new SGDNuclearWeightLearner[Part](inf,
+            new SGDFactorizationWeightLearner[Part](inf,
               sgdParameters(options, lambda1, lambda2, options[Int](numWeightIters)),targetSimilarities, endOfEpochEval = eval)
+          case "nuclear-labels" =>
+            new SGDFactorizationLabelLearner[Part](inf,
+              sgdParameters(options, lambda1, lambda2, options[Int](numWeightIters)), endOfEpochEval = eval)
           case _ =>
             throw new RuntimeException("Unknown learning algorithm " + options[String](learningAlgorithm))
         }

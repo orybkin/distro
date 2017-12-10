@@ -22,7 +22,7 @@ trait NuclearWeightVectorUpdater[Part] extends HasLogging {
     val wUpdates = getWeightUpdates(updateInfo, w, A)
     updateWeightVector(w, learningRate, wUpdates)
 
-    doProxStep(w,A.size, A(0).size) // A needed to provide dimensions
+    doProxStep(w,A.size, A(0).size)
   }
 
 

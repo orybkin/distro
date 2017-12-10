@@ -7,3 +7,5 @@ lib_managed
 \.DS_Store
 
 experiments/
+
+selected_experiments/
