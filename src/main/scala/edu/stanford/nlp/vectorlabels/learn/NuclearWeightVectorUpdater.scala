@@ -22,13 +22,14 @@ trait NuclearWeightVectorUpdater[Part] extends HasLogging {
     val wUpdates = getWeightUpdates(updateInfo, w, A)
     updateWeightVector(w, learningRate, wUpdates)
 
-    doProxStep(w,A.size, A(0).size)
+    doProxStep(w,A.size)
   }
 
 
-  def doProxStep(w: Vector, numlabels: Int, numfeats: Int) = {
+  def doProxStep(w: Vector, numlabels: Int) = {
 
-
+    print(w.size)
+    val numfeats=math.round(w.size/numlabels)
     val wArr = (0 until w.size).map(i => w(i)).toArray // vector to array
     val wArr2d = (0 until numlabels).map(i => wArr.slice(0+i*numfeats, numfeats*(i+1))).toArray // 2d array numfeats*numlabels
     val wList = wArr2d.map(v => DenseVector(v: _*)) // apparently, what this does is: transform Arr[Int] to Double* and then call the apply method of DenseVector object
@@ -68,9 +69,14 @@ trait NuclearWeightVectorUpdater[Part] extends HasLogging {
             s"a_$i = $ai is NaN or zero. The norm is $norm.")
 
           // normalize each a_i to project it to the unit ball
-          ai *= (1 / norm)
+//          ai *= (1 / norm)
         }
       }
+
+    val newW=wList.map(v => (0 until numfeats).map(i => v(i)).toArray).flatten
+    for (i <- (0 until w.size)){
+      w(i)=newW(i)
+    }
   }
 
 
@@ -92,7 +98,7 @@ trait NuclearWeightVectorUpdater[Part] extends HasLogging {
   def updateWeightVector(w: Vector, rate1: Double,
                          wUpdates: Seq[Option[Seq[(Vector, Vector)]]]) = {
     // first apply shrinkage
-    w *= (1 - rate1 * params.lambda1)
+    //w *= (1 - rate1 * params.lambda1)
 
     val size = wUpdates.size
 

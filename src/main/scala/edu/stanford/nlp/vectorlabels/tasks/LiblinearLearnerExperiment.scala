@@ -103,10 +103,10 @@ class LiblinearLearnerExperiment(implicit random: scala.util.Random) extends Abs
 
   def testSet(options: Options, manager: Manager[Example]) = manager.testSet
 
-//  def initialModel(options: Options, manager: Manager[Example], initVectors: List[Vector]) =
-//    Model(new DenseVector(manager.numFeatures * initVectors(0).size), initVectors)
-
   def initialModel(options: Options, manager: Manager[Example], initVectors: List[Vector]) =
-    Model(DenseVector(Array.fill[Double](manager.numFeatures * initVectors(0).size)(1): _*), initVectors)
+    Model(new DenseVector(manager.numFeatures * initVectors(0).size), initVectors)
+
+//  def initialModel(options: Options, manager: Manager[Example], initVectors: List[Vector]) =
+//    Model(DenseVector(Array.fill[Double](manager.numFeatures * initVectors(0).size)(1): _*), initVectors)
 
 }

@@ -2,7 +2,7 @@ package edu.stanford.nlp.vectorlabels.learn
 
 import edu.stanford.nlp.vectorlabels.core.Vector
 import edu.stanford.nlp.io.IOUtils
-import java.io.File
+import java.io.{File, PrintWriter}
 
 case class Model(weights: Vector, labels: List[Vector], weightTimeStamp: Long = 0, labelTimeStamp: Long = 0) {
   def updateW(newW: Vector) = Model(newW, labels, weightTimeStamp = this.weightTimeStamp + 1)
@@ -22,6 +22,10 @@ case class Model(weights: Vector, labels: List[Vector], weightTimeStamp: Long = 
       i => labels(i).serialize(dir + "/labels" + i + ".Z")
     }
 
+    val writer = new PrintWriter(new File(dir + "/Weights.txt"))
+    for (i <- (0 until weights.size))
+      {writer.write(weights(i).toString)}
+    writer.close()
   }
 }
 

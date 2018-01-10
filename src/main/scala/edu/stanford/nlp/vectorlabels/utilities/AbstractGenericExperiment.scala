@@ -2,9 +2,9 @@ package edu.stanford.nlp.vectorlabels.utilities
 
 import edu.stanford.nlp.vectorlabels.Main
 import edu.stanford.nlp.vectorlabels.learn._
-import edu.stanford.nlp.vectorlabels.core.Vector
-import scala.collection.parallel
+import edu.stanford.nlp.vectorlabels.core.{DenseVector, Vector}
 
+import scala.collection.parallel
 import Jama.Matrix
 
 /**
@@ -247,7 +247,7 @@ abstract class AbstractGenericExperiment[Part](implicit random: scala.util.Rando
                   iters: Int, manager: Manager[Part], cv: Boolean = false) = {
 
 
-    val eval = (t: Int, m: Model) => if (!cv) endOfEpoch(t, options, m, manager)
+    val eval = (t: Int, m: Model) => if (true) endOfEpoch(t, options, m, manager)
 
 
     val learner =
@@ -297,10 +297,17 @@ abstract class AbstractGenericExperiment[Part](implicit random: scala.util.Rando
     withHTMLOutput(writeHTML(s"<h4>End of epoch $epochId </h4>"))
 
     withHTMLOutput {
-
       val A = model.labels
+      val numlabels=A.size
+      val numfeats= A(0).size
+
+      val w=model.weights
+      val wArr = (0 until w.size).map(i => w(i)).toArray // vector to array
+      val wArr2d = (0 until numlabels).map(i => wArr.slice(0+i*numfeats, numfeats*(i+1))).toArray // 2d array numfeats*numlabels
+      val wList = wArr2d.map(v => DenseVector(v: _*)) // apparently, what this does is: transform Arr[Int] to Double* and then call the apply method of DenseVector object
+
       val dim = A(0).size
-      val ll = A.map(v => (0 until v.size).map(i => f"${
+      val ll = wList.map(v => (0 until v.size).map(i => f"${
         v(i)
       }%1.3f").toList)
       val table = new Table("Label" :: (0 until dim).map(_.toString).toList: _*)
@@ -315,7 +322,7 @@ abstract class AbstractGenericExperiment[Part](implicit random: scala.util.Rando
       val svd = matrix.svd
       writeHTML("Rank of label matrix = " + svd.rank + "</span>" + getButtonHTML("", "Toggle label vectors"))
 
-      infoTable(s"Label vectors at the end of epoch $epochId", table, hLevel = "", heatmap = true)
+      infoTable(s"Weight vectors at the end of epoch $epochId", table, hLevel = "", heatmap = true)
       writeHTML("</div>")
 
       val singVals = svd.getSingularValues.map(d => f"$d%1.3f").toList
